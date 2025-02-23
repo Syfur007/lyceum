@@ -30,7 +30,7 @@ $communities = $stmt->fetchAll();
         <ul>
             <?php foreach ($communities as $community): ?>
                 <li>
-                    <h3><?php echo htmlspecialchars($community['community_name']); ?></h3>
+                    <h3><a href="community.php?id=<?php echo htmlspecialchars($community['id']); ?>"><?php echo htmlspecialchars($community['community_name']); ?></a></h3>
                     <p><?php echo htmlspecialchars($community['description']); ?></p>
                     <p>University ID: <?php echo htmlspecialchars($community['university_id']); ?></p>
                     <p>Institute ID: <?php echo htmlspecialchars($community['institute_id']); ?></p>
