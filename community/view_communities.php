@@ -26,6 +26,9 @@ $communities = $stmt->fetchAll();
 </head>
 <body>
     <h2>All Communities</h2>
+    <?php if ($_SESSION['role'] === 'teacher'): ?>
+        <a href="create_community.php"><button>Create Community</button></a>
+    <?php endif; ?>
     <?php if (count($communities) > 0): ?>
         <ul>
             <?php foreach ($communities as $community): ?>
@@ -36,6 +39,10 @@ $communities = $stmt->fetchAll();
                     <p>Institute ID: <?php echo htmlspecialchars($community['institute_id']); ?></p>
                     <p>Course ID: <?php echo htmlspecialchars($community['course_id']); ?></p>
                     <p>Batch ID: <?php echo htmlspecialchars($community['batch_id']); ?></p>
+                    <?php if ($_SESSION['role'] === 'teacher'): ?>
+                        <a href="edit_community.php?id=<?php echo htmlspecialchars($community['id']); ?>"><button>Edit</button></a>
+                        <a href="delete_community.php?id=<?php echo htmlspecialchars($community['id']); ?>" onclick="return confirm('Are you sure you want to delete this community?');"><button>Delete</button></a>
+                    <?php endif; ?>
                 </li>
             <?php endforeach; ?>
         </ul>

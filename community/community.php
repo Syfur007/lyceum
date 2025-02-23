@@ -11,8 +11,13 @@ if (!isset($_SESSION['user_id'])) {
 // Get the community ID from the URL
 $community_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-// Fetch community details
-$sql = "SELECT * FROM community WHERE id = :community_id";
+// Fetch community details with university, institute, and course names
+$sql = "SELECT c.*, u.name AS university_name, i.name AS institute_name, co.course_title AS course_name 
+        FROM community c
+        JOIN university u ON c.university_id = u.id
+        JOIN institute i ON c.institute_id = i.id
+        JOIN courses co ON c.course_id = co.id AND c.institute_id = co.institute_id
+        WHERE c.id = :community_id";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':community_id', $community_id);
 $stmt->execute();
@@ -24,7 +29,10 @@ if (!$community) {
 }
 
 // Fetch posts in the community
-$sql = "SELECT * FROM posts WHERE community_id = :community_id";
+$sql = "SELECT p.*, 
+               (SELECT SUM(vote) FROM vote_in_post WHERE post_id = p.id) AS votes 
+        FROM posts p 
+        WHERE p.community_id = :community_id";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':community_id', $community_id);
 $stmt->execute();
@@ -51,10 +59,35 @@ $categories = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($community['community_name']); ?></title>
+    <script>
+        function vote(postId, vote) {
+            const formData = new FormData();
+            formData.append('post_id', postId);
+            formData.append('vote', vote);
+
+            fetch('vote_post.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    document.getElementById('votes-' + postId).innerText = data.votes;
+                } else {
+                    console.error(data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
 </head>
 <body>
     <h2><?php echo htmlspecialchars($community['community_name']); ?></h2>
     <p><?php echo htmlspecialchars($community['description']); ?></p>
+    <p>University: <?php echo htmlspecialchars($community['university_name']); ?></p>
+    <p>Institute: <?php echo htmlspecialchars($community['institute_name']); ?></p>
+    <p>Course: <?php echo htmlspecialchars($community['course_name']); ?></p>
+    <p>Batch ID: <?php echo htmlspecialchars($community['batch_id']); ?></p>
     
     <h3>Members</h3>
     <?php if (count($members) > 0): ?>
@@ -93,13 +126,16 @@ $categories = $stmt->fetchAll();
         <ul>
             <?php foreach ($posts as $post): ?>
                 <li>
-                    <h4><?php echo htmlspecialchars($post['post_title']); ?></h4>
+                    <h4><a href="post.php?id=<?php echo htmlspecialchars($post['id']); ?>"><?php echo htmlspecialchars($post['post_title']); ?></a></h4>
                     <p><?php echo htmlspecialchars($post['post_description']); ?></p>
                     <p>Posted by User ID: <?php echo htmlspecialchars($post['user_id']); ?></p>
                     <p>Created at: <?php echo htmlspecialchars($post['created_at']); ?></p>
                     <?php if ($post['created_at'] != $post['modified_at']): ?>
                         <p>Last modified: <?php echo htmlspecialchars($post['modified_at']); ?> (<?php echo time_elapsed_string($post['modified_at']); ?> ago)</p>
                     <?php endif; ?>
+                    <p>Votes: <span id="votes-<?php echo htmlspecialchars($post['id']); ?>"><?php echo htmlspecialchars($post['votes'] ?? 0); ?></span></p>
+                    <button onclick="vote(<?php echo htmlspecialchars($post['id']); ?>, 1)">Upvote</button>
+                    <button onclick="vote(<?php echo htmlspecialchars($post['id']); ?>, -1)">Downvote</button>
                     <?php if ($post['user_id'] == $_SESSION['user_id']): ?>
                         <a href="edit_post.php?id=<?php echo htmlspecialchars($post['id']); ?>">Edit</a>
                     <?php endif; ?>
