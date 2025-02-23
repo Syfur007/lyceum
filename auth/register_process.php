@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__.'/../../../config/database.php';
+require __DIR__.'/../config/database.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Execute the statement
     if ($stmt->execute()) {
         echo "<script>console.log('User registered successfully!');</script>";
-        header("Location: /login.php");
+        header("Location: /auth/login.php");
         exit();
     } else {
         echo "<script>console.log('Error: " . $stmt->errorInfo()[2] . "');</script>";
