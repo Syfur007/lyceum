@@ -48,6 +48,13 @@ $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':community_id', $community_id);
 $stmt->execute();
 $members = $stmt->fetchAll();
+
+// Fetch categories
+$sql = "SELECT * FROM post_category";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$categories = $stmt->fetchAll();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -72,7 +79,30 @@ $members = $stmt->fetchAll();
         <h1><?php echo htmlspecialchars($community['course_name']); ?></h1>
     </div>
 
+    <div class="create-post">
+            <h2>Create Post</h2>
+            <form action="community/create_post.php" method="POST">
+        <input type="hidden" name="community_id" value="<?php echo htmlspecialchars($community_id); ?>">
+        <label for="post_title">Post Title:</label>
+        <input type="text" id="post_title" name="post_title" required><br><br>
+
+        <label for="post_description">Post Description:</label>
+        <textarea id="post_description" name="post_description" required></textarea><br><br>
+
+        <label for="category_id">Category:</label>
+        <select id="category_id" name="category_id" required>
+            <?php foreach ($categories as $category): ?>
+                <option value="<?php echo htmlspecialchars($category['id']); ?>"><?php echo htmlspecialchars($category['title']); ?></option>
+            <?php endforeach; ?>
+        </select><br><br>
+
+        <button type="submit">Create Post</button>
+    </form>
+        </div>
+
+
     <div class="main">
+        
         <div class="main-top">
             <?php foreach ($posts as $post): ?>
                 <article class="post">
