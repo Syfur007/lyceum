@@ -40,7 +40,7 @@ function display_comments($comments, $parent_id = null, $level = 0) {
         if ($comment['parent_id'] == $parent_id) {
             $html .= '<div class="comment" style="margin-left: ' . ($level * 20) . 'px;">';
             $html .= '<p>' . htmlspecialchars($comment['comment']) . ' - <small>Posted by User ID: ' . htmlspecialchars($comment['user_id']) . '</small></p>';
-            $html .= '<form action="community/create_comment.php" method="POST">';
+            $html .= '<form action="create_comment.php" method="POST">';
             $html .= '<input type="hidden" name="post_id" value="' . htmlspecialchars($comment['post_id']) . '">';
             $html .= '<input type="hidden" name="community_id" value="' . htmlspecialchars($comment['community_id']) . '">';
             $html .= '<input type="hidden" name="parent_id" value="' . htmlspecialchars($comment['id']) . '">';
@@ -134,7 +134,7 @@ function display_comments($comments, $parent_id = null, $level = 0) {
             formData.append('post_id', postId);
             formData.append('vote', vote);
 
-            fetch('vote_post.php', {
+            fetch('community/vote_post.php', {
                 method: 'POST',
                 body: formData
             })
@@ -171,7 +171,7 @@ function display_comments($comments, $parent_id = null, $level = 0) {
 
     <div class="post-container">
         <h3>Add a Comment</h3>
-        <form action="community/create_comment.php" method="POST">
+        <form action="create_comment.php" method="POST">
             <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post_id); ?>">
             <input type="hidden" name="community_id" value="<?php echo htmlspecialchars($post['community_id']); ?>">
             <input type="hidden" name="parent_id" value="">
