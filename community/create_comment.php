@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Execute the statement
     if ($stmt->execute()) {
         echo "<script>console.log('Comment added successfully!');</script>";
-        header("Location: post.php?id=$post_id");
+        header("Location: ../post.php?id=$post_id");
         exit();
     } else {
         echo "<script>console.log('Error: " . $stmt->errorInfo()[2] . "');</script>";

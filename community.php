@@ -48,6 +48,13 @@ $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':community_id', $community_id);
 $stmt->execute();
 $members = $stmt->fetchAll();
+
+// Fetch categories
+$sql = "SELECT * FROM post_category";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$categories = $stmt->fetchAll();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -72,7 +79,30 @@ $members = $stmt->fetchAll();
         <h1><?php echo htmlspecialchars($community['course_name']); ?></h1>
     </div>
 
+    <div class="create-post">
+            <h2>Create Post</h2>
+            <form action="community/create_post.php" method="POST">
+        <input type="hidden" name="community_id" value="<?php echo htmlspecialchars($community_id); ?>">
+        <label for="post_title">Post Title:</label>
+        <input type="text" id="post_title" name="post_title" required><br><br>
+
+        <label for="post_description">Post Description:</label>
+        <textarea id="post_description" name="post_description" required></textarea><br><br>
+
+        <label for="category_id">Category:</label>
+        <select id="category_id" name="category_id" required>
+            <?php foreach ($categories as $category): ?>
+                <option value="<?php echo htmlspecialchars($category['id']); ?>"><?php echo htmlspecialchars($category['title']); ?></option>
+            <?php endforeach; ?>
+        </select><br><br>
+
+        <button type="submit">Create Post</button>
+    </form>
+        </div>
+
+
     <div class="main">
+        
         <div class="main-top">
             <?php foreach ($posts as $post): ?>
                 <article class="post">
@@ -90,8 +120,8 @@ $members = $stmt->fetchAll();
                             <span>by <a href="profile.php?id=<?php echo htmlspecialchars($post['user_id']); ?>"><?php echo htmlspecialchars($post['username']); ?></a></span>
                             <span class="date">at <?php echo htmlspecialchars($post['created_at']); ?></span>
                             <?php if ($post['user_id'] == $_SESSION['user_id']): ?>
-                                <a href="edit_post.php?id=<?php echo htmlspecialchars($post['id']); ?>">Edit</a>
-                                <a href="delete_post.php?id=<?php echo htmlspecialchars($post['id']); ?>" onclick="return confirm('Are you sure you want to delete this post?');">Delete</a>
+                                <a href="community/edit_post.php?id=<?php echo htmlspecialchars($post['id']); ?>">Edit</a>
+                                <a href="community/delete_post.php?id=<?php echo htmlspecialchars($post['id']); ?>" onclick="return confirm('Are you sure you want to delete this post?');">Delete</a>
                             <?php endif; ?>
                         </div>
                     </div>

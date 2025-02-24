@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Execute the statement
     if ($stmt->execute()) {
         echo "<script>console.log('Post created successfully!');</script>";
-        header("Location: community.php?id=$community_id");
+        header("Location: ../community.php?id=$community_id");
         exit();
     } else {
         echo "<script>console.log('Error: " . $stmt->errorInfo()[2] . "');</script>";
