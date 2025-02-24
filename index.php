@@ -28,8 +28,7 @@ if (isset($_SESSION['user_id'])) {
                 <ul>
                     <li><a href="#">HOME</a></li>
                     <li><a href="#">ABOUT</a></li>
-                    <li><a href="#">SERVICE</a></li>
-                    <li><a href="#">DESIGN</a></li>
+                    <li><a href="#">FEATURES</a></li>
                     <li><a href="#">CONTACT</a></li>
                 </ul>
             </div>

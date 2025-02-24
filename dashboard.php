@@ -47,7 +47,7 @@ $communities = $stmt->fetchAll();
                         <i class="fas fa-home"></i>
                         <span class="nav-item">Home</span>
                     </a></li>
-                <li><a href="">
+                <li><a href="auth/profile.php">
                         <i class="fas fa-user"></i>
                         <span class="nav-item">Profile</span>
                     </a></li>

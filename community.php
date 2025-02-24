@@ -90,8 +90,8 @@ $members = $stmt->fetchAll();
                             <span>by <a href="profile.php?id=<?php echo htmlspecialchars($post['user_id']); ?>"><?php echo htmlspecialchars($post['username']); ?></a></span>
                             <span class="date">at <?php echo htmlspecialchars($post['created_at']); ?></span>
                             <?php if ($post['user_id'] == $_SESSION['user_id']): ?>
-                                <a href="edit_post.php?id=<?php echo htmlspecialchars($post['id']); ?>">Edit</a>
-                                <a href="delete_post.php?id=<?php echo htmlspecialchars($post['id']); ?>" onclick="return confirm('Are you sure you want to delete this post?');">Delete</a>
+                                <a href="community/edit_post.php?id=<?php echo htmlspecialchars($post['id']); ?>">Edit</a>
+                                <a href="community/delete_post.php?id=<?php echo htmlspecialchars($post['id']); ?>" onclick="return confirm('Are you sure you want to delete this post?');">Delete</a>
                             <?php endif; ?>
                         </div>
                     </div>
