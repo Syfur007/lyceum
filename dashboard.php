@@ -40,7 +40,7 @@ $communities = $stmt->fetchAll();
         <nav>
             <ul>
                 <li><a href="index.php" class="logo">
-                        <img src="/logo.jpg" alt="">
+                        <img src="img/logo.png" alt="">
                         <span class="nav-item">DashBoard</span>
                     </a></li>
                 <li><a href="index.php">
@@ -50,10 +50,6 @@ $communities = $stmt->fetchAll();
                 <li><a href="">
                         <i class="fas fa-user"></i>
                         <span class="nav-item">Profile</span>
-                    </a></li>
-                <li><a href="">
-                        <i class="fas fa-wallet"></i>
-                        <span class="nav-item">Wallet</span>
                     </a></li>
                 <li><a href="">
                         <i class="fas fa-chart-bar"></i>
@@ -127,7 +123,7 @@ $communities = $stmt->fetchAll();
                     <div class="course">
                         <?php foreach ($communities as $community): ?>
                             <div class="box">
-                                <a href="community/community.php?id=<?php echo htmlspecialchars($community['id']); ?>">
+                                <a href="community.php?id=<?php echo htmlspecialchars($community['id']); ?>">
                                     <h3><?php echo htmlspecialchars($community['community_name']); ?></h3>
                                     <p><?php echo htmlspecialchars($community['course_title']); ?> (<?php echo htmlspecialchars($community['course_code']); ?>)</p>
                                     <p><?php echo htmlspecialchars($community['institute_name']); ?></p>
@@ -135,24 +131,12 @@ $communities = $stmt->fetchAll();
                                     <p>Batch: <?php echo htmlspecialchars($community['batch_id']); ?></p>
                                     <?php if ($_SESSION['role'] === 'teacher'): ?>
                                 </a>
-                                        <a href="edit_community.php?id=<?php echo htmlspecialchars($community['id']); ?>"><button>Edit</button></a>
-                                        <a href="delete_community.php?id=<?php echo htmlspecialchars($community['id']); ?>" onclick="return confirm('Are you sure you want to delete this community?');"><button>Delete</button></a>
+                                        <a href="community/edit_community.php?id=<?php echo htmlspecialchars($community['id']); ?>"><button>Edit</button></a>
+                                        <a href="community/delete_community.php?id=<?php echo htmlspecialchars($community['id']); ?>" onclick="return confirm('Are you sure you want to delete this community?');"><button>Delete</button></a>
                                     <?php endif; ?>
 
                             </div>
                         <?php endforeach; ?>
-                        <div class="box">
-                            <h3>CSS</h3>
-                            <p>50% - progress</p>
-                            <button>Continue</button>
-                            <i class="fab fa-css3-alt css"></i>
-                        </div>
-                        <!-- <div class="box">
-                            <h3>JavaScript</h3>
-                            <p>30% - progress</p>
-                            <button>Continue</button>
-                            <i class="fab fa-js-square js"></i>
-                        </div> -->
                     </div>
                 </div>
             </section>

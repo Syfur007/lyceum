@@ -65,7 +65,7 @@ $members = $stmt->fetchAll();
         <a href="index.php">Home</a>
         <a href="community.php">Community</a>
         <a href="profile.php">Profile</a>
-        <a href="logout.php" style="float:right">Logout</a>
+        <a href="auth/logout.php" style="float:right">Logout</a>
     </div>
 
     <div class="hero">
@@ -101,13 +101,13 @@ $members = $stmt->fetchAll();
         <div class="main-right">
             <h3>Members</h3>
             <?php if (count($members) > 0): ?>
-                <ul>
+                <div class="members">
                     <?php foreach ($members as $member): ?>
-                        <li>
+                        <div>
                             <?php echo htmlspecialchars($member['first_name'] . ' ' . $member['last_name'] . ' (' . $member['username'] . ')'); ?>
-                        </li>
+                    </div>
                     <?php endforeach; ?>
-                </ul>
+                    </div>
             <?php else: ?>
                 <p>No members found in this community.</p>
             <?php endif; ?>

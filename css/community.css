@@ -56,10 +56,7 @@ body {
 }
 
 .main-right {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #446DF6;
+  padding: 25px;
   width: 25%;
   height: 100px;
 }
@@ -135,4 +132,10 @@ body {
 
 .post-footer .date {
   color: #aaa;
+}
+
+.members {
+  color: #446DF6;
+  width: 100%;
+  height: 100px;
 }
