@@ -13,7 +13,7 @@ if (isset($_SESSION['user_id'])) {
 
 <head>
     <title>Home: Lyceum</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
 </head>
 
 <body>
